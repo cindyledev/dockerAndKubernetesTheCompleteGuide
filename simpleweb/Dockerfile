@@ -1,7 +1,8 @@
 # Specifiy a base image
-FROM node:alpine
+FROM node:lts-alpine
 
 # Install some dependencies
+COPY ./ ./
 RUN npm install
 
 # Default command
