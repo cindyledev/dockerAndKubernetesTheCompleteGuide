@@ -30,8 +30,22 @@ jobs:
       - checkout:
           path: ~/dockerAndKubernetesTheCompleteGuide
       - run:
-          name: build
-          command: npm run build
+          name: Install AWS CLI 
+          command: |
+            sudo pip install awsebcli --upgrade
+      - run:
+          name: Create AWS credentials manually
+          command: |
+            mkdir ~/.aws
+            touch ~/.aws/config
+            chmod 600 ~/.aws/config 
+            echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/config
+            echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/config
+      - run:
+          name: Deploy to EB if branch is master
+          command: |
+            eb use DockerReact-env
+            eb deploy --version --staged 
 
 workflows:
   build_and_test:
@@ -40,3 +54,11 @@ workflows:
       - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only:
+                - master
