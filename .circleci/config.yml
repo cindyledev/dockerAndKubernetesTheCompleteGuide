@@ -31,7 +31,7 @@ jobs:
           at: .
       - run:
           name: Install AWS CLI 
-          command: pip install awsebcli
+          command: sudo pip install awsebcli
       - run:
           name: Create AWS credential
           command: |
@@ -39,7 +39,9 @@ jobs:
             bash ./setup-eb.sh
       - run:
           name: Deploy to EB if branch is master
-          command: eb deploy DockerReact-env
+          command: |
+            eb use DockerReact-env
+            eb deploy
 
 workflows:
   build_and_test:
