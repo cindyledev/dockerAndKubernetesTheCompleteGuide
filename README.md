@@ -23,3 +23,4 @@
 ## Section 7: Continuous Integration and Deployment with AWS
 
 - 95 CircleCI YML File Configuration (originally Travis but I don't like Travis CI so...)
+- 105: Expose Ports in Dockerfile
