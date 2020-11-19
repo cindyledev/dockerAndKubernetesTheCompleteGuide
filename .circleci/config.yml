@@ -41,7 +41,7 @@ jobs:
       - run:
           name: Deploy to EB if branch is master
           command: |
-            eb use DockerReact-env --region $REGION
+            eb use DockerReact-env
             eb deploy
 
 workflows:
