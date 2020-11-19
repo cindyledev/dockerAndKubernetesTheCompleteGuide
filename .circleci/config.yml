@@ -32,20 +32,21 @@ jobs:
       - run:
           name: Install AWS CLI 
           command: |
-            sudo pip install awsebcli --upgrade
+            sudo pip install awsebcli --upgrade --user
       - run:
           name: Create AWS credentials manually
           command: |
             mkdir ~/.aws
             touch ~/.aws/config
             chmod 600 ~/.aws/config 
+            echo "aws_region=$REGION" >> ~/.aws/config
             echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/config
             echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/config
       - run:
           name: Deploy to EB if branch is master
           command: |
             eb use DockerReact-env
-            eb deploy --version --staged 
+            eb deploy
 
 workflows:
   build_and_test:
@@ -56,7 +57,6 @@ workflows:
             - build
       - deploy:
           requires:
-            - build
             - test
           filters:
             branches:
