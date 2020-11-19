@@ -24,11 +24,12 @@ jobs:
           name: Execute tests
           command: npm run test
   deploy:
+    working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
     docker:
       - image: circleci/python:3.9
     steps:
-      - attach_workspace:
-          at: .
+      - checkout:
+          path: ~/dockerAndKubernetesTheCompleteGuide
       - run:
           name: Install AWS CLI 
           command: sudo pip install awsebcli
