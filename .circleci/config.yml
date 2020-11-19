@@ -46,7 +46,7 @@ jobs:
           name: Deploy to EB if branch is master
           command: |
             eb use DockerReact-env --profile $PROFILE_NAME
-            eb deploy --profile $PROFILE_NAME
+            eb deploy --staged --profile $PROFILE_NAME
 
 workflows:
   build_and_test:
