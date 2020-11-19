@@ -39,14 +39,15 @@ jobs:
             mkdir ~/.aws
             touch ~/.aws/config
             chmod 600 ~/.aws/config 
+            echo "profile_name=$PROFILE_NAME" >> ~/.aws/config
             echo "aws_region=$REGION" >> ~/.aws/config
             echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/config
             echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/config
       - run:
           name: Deploy to EB if branch is master
           command: |
-            eb use DockerReact-env
-            eb deploy
+            eb use DockerReact-env --profile $PROFILE_NAME
+            eb deploy --staged --profile $PROFILE_NAME
 
 workflows:
   build_and_test:
