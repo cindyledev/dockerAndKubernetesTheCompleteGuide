@@ -1,0 +1,15 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout:
+          path: ~/dockerAndKubernetesTheCompleteGuide
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run: 
+          name: Execute tests
+          command: npm run test 

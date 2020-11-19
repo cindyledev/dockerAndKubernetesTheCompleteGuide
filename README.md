@@ -19,3 +19,7 @@
 - 78: Overriding Docker Selection
 - 83: Docker Compose for Running Tests
 - 90: Implementing Multi-Step Builds
+
+## Section 7: Continuous Integration and Deployment with AWS
+
+- 95 CircleCI YML File Configuration (originally Travis but I don't like Travis CI so...)
