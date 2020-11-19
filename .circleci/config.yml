@@ -27,12 +27,11 @@ jobs:
     docker:
       - image: circleci/python:3.9
     steps:
-      - checkout:
-          path: ~/dockerAndKubernetesTheCompleteGuide
+      - attach_workspace:
+          at: .
       - run:
           name: Install AWS CLI 
-          command: |
-            sudo pip install awsebcli --upgrade --user
+          command: pip install awsebcli
       - run:
           name: Create AWS credentials manually
           command: |
@@ -47,7 +46,7 @@ jobs:
           name: Deploy to EB if branch is master
           command: |
             eb use DockerReact-env --profile $PROFILE_NAME
-            eb deploy --staged --profile $PROFILE_NAME
+            eb deploy --profile $PROFILE_NAME
 
 workflows:
   build_and_test:
