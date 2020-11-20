@@ -31,3 +31,5 @@
 
 - 117: Worker Process Setup
 - 119: Express API Setup
+- 121: Connecting to Postgres
+- 122: More Express API Setup
