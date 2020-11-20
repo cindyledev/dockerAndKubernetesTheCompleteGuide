@@ -35,3 +35,4 @@
 - 122: More Express API Setup
 - 124: Generating the React App
 - 125: Fetching Data in the React App
+- 126: Rendering Logic in the App
