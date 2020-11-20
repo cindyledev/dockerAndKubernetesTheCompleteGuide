@@ -44,3 +44,4 @@
 - 132: Dockerizing the React App
 - 134: Dockerizing Generic Node Apps
 - 135: Adding Postgres as a Service
+- 136: Docker-compose config
