@@ -48,3 +48,4 @@
 - 138: Environment Variables with Docker Compose
 - 140: The Worker and Client Services
 - 142: Routing with Nginx
+- 143: Building a Custom Nginx Image
