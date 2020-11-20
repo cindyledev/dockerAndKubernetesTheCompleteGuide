@@ -47,3 +47,4 @@
 - 136: Docker-compose config
 - 138: Environment Variables with Docker Compose
 - 140: The Worker and Client Services
+- 142: Routing with Nginx
