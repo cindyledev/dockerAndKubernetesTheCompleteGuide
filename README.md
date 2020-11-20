@@ -33,3 +33,5 @@
 - 119: Express API Setup
 - 121: Connecting to Postgres
 - 122: More Express API Setup
+- 124: Generating the React App
+- 125: Fetching Data in the React App
