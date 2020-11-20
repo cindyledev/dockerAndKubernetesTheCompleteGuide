@@ -21,6 +21,12 @@
 - 90: Implementing Multi-Step Builds
 
 ## Section 7: Continuous Integration and Deployment with AWS
+### Frontend
 
 - 95 CircleCI YML File Configuration (originally Travis but I don't like Travis CI so...)
 - 105: Expose Ports in Dockerfile
+
+## Section 8: Building a Multi-Container Application
+### Complex
+
+- 117: Worker Process Setup 
