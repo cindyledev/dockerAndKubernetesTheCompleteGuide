@@ -31,14 +31,10 @@ jobs:
   build_nginx:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex/nginx 
     docker:
-      - image: nginx
+      - image: circleci/nginx
     steps: 
       - checkout: 
         - path: ~/dockerAndKubernetesTheCompleteGuide
-      - run: nginx
-      - run:
-          name: Copy default.conf
-          command: sudo cp ./default.conf /etc/nginx/conf.d/default.conf
       - persist_to_workspace:
           root: .
           paths:
@@ -47,23 +43,12 @@ jobs:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex/client 
     docker:
       - image: circleci/node:lts
-      - image: nginx
     steps:
       - checkout:
           path: ~/dockerAndKubernetesTheCompleteGuide
       - run:
           name: Install dependencies
           command: npm install
-      - run:
-          name: Build client
-          command: npm run build 
-      - run: nginx
-      - run:
-          name: Copy default.conf
-          command: sudo cp ./nginx/default.conf /etc/nginx/conf.d/default.conf
-      - run:
-          name: Copy from builder 
-          command: sudo cp --from=builder /app/build /usr/share/nginx/html
       - persist_to_workspace:
           root: .
           paths:
