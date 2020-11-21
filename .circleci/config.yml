@@ -28,17 +28,6 @@ jobs:
           root: .
           paths:
             - .
-  build_nginx:
-    working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex/nginx 
-    docker:
-      - image: circleci/nginx
-    steps: 
-      - checkout: 
-        - path: ~/dockerAndKubernetesTheCompleteGuide
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
   build_client:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex/client 
     docker:
@@ -88,7 +77,6 @@ workflows:
     jobs:
       - build_worker
       - build_server
-      - build_nginx
       - build_client
       - test_client:
           requires:
@@ -97,7 +85,6 @@ workflows:
           requires:
             - build_worker
             - build_server
-            - build_nginx
             - test_client
           filters:
             branches:
