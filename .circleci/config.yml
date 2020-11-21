@@ -73,10 +73,8 @@ jobs:
             eb deploy
 
 workflows:
-  build_and_test:
+  build_test_deploy:
     jobs:
-      - build_worker
-      - build_server
       - build_client
       - test_client:
           requires:
