@@ -103,6 +103,7 @@ workflows:
     jobs:
       - build_worker
       - build_server
+      - build_nginx
       - build_client
       - test_client:
           requires:
@@ -111,6 +112,7 @@ workflows:
           requires:
             - build_worker
             - build_server
+            - build_nginx
             - test_client
           filters:
             branches:
