@@ -1,7 +1,7 @@
 version: 2.1
 jobs:
-  build:
-    working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
+  build_worker:
+    working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex/worker
     docker:
       - image: circleci/node:lts
     steps:
@@ -14,47 +14,50 @@ jobs:
           root: .
           paths:
             - .
-  test:
+  build_server:
+    working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex/server 
+    docker: 
+      - image: circleci/node:lts
+    steps:
+      - checkout:
+          path: ~/dockerAndKubernetesTheCompleteGuide
+      - run:
+          name: Install dependencies
+          command: npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  build_client:
+    working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex/client 
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout:
+          path: ~/dockerAndKubernetesTheCompleteGuide
+      - run:
+          name: Install dependencies
+          command: npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  test_client:
     docker:
       - image: circleci/node:lts
     steps:
       - attach_workspace:
           at: .
-      - run: 
+      - run:
           name: Execute tests
           command: npm run test
-  deploy:
-    working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
-    docker:
-      - image: circleci/python:3.9
-    steps:
-      - checkout:
-          path: ~/dockerAndKubernetesTheCompleteGuide
-      - run:
-          name: Install AWS CLI 
-          command: sudo pip install awsebcli
-      - run:
-          name: Create AWS credential
-          command: |
-            chmod +x ./setup-eb.sh
-            bash ./setup-eb.sh
-      - run:
-          name: Deploy to EB if branch is master
-          command: |
-            eb use DockerReact-env
-            eb deploy
 
 workflows:
   build_and_test:
     jobs:
-      - build
-      - test:
+      - build_worker
+      - build_server
+      - build_client
+      - test_client:
           requires:
-            - build
-      - deploy:
-          requires:
-            - test
-          filters:
-            branches:
-              only:
-                - master
+            - build_client
