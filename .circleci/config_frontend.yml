@@ -1,7 +1,7 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex
+    working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
     docker:
       - image: circleci/node:lts
         auth:
@@ -13,29 +13,11 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
       - run:
-          name: Build client
-          command: |
-            docker build -t $DOCKER_USER/complex-client ./client
+          name: Build frontend
+          command: | 
+            docker build -t $DOCKER_USER/docker-frontend -f Dockerfile.dev .
             echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-            docker push $DOCKER_USER/complex-client
-      - run:
-          name: Build nginx
-          command: |
-            docker build -t $DOCKER_USER/complex-nginx ./nginx
-            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-            docker push $DOCKER_USER/complex-nginx
-      - run:
-          name: Build server
-          command: |
-            docker build -t $DOCKER_USER/complex-server ./server
-            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-            docker push $DOCKER_USER/complex-server
-      - run:
-          name: Build worker
-          command: |
-            docker build -t $DOCKER_USER/complex-worker ./worker
-            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-            docker push $DOCKER_USER/complex-worker
+            docker push $DOCKER_USER/docker-frontend
       - persist_to_workspace:
           root: .
           paths:
@@ -51,11 +33,11 @@ jobs:
           at: .
       - setup_remote_docker:
           version: 19.03.13
-      - run:
+      - run: 
           name: Execute tests
-          command: docker run -e CI=true $DOCKER_USER/complex-client npm run test
+          command: docker run -e CI=true $DOCKER_USER/docker-frontend npm run test
   deploy:
-    working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex
+    working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
     docker:
       - image: circleci/python:3.9
     steps:
@@ -68,7 +50,7 @@ jobs:
           name: Create AWS credential
           command: |
             chmod +x ./setup-eb.sh
-            bash ./setup-eb.sh 
+            bash ./setup-eb.sh
       - run:
           name: Deploy to EB if branch is master
           command: |
