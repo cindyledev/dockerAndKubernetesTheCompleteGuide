@@ -12,7 +12,6 @@ jobs:
           path: ~/dockerAndKubernetesTheCompleteGuide
       - setup_remote_docker:
           version: 19.03.13
-          docker_layer_caching: true
       - run:
           name: Build frontend
           command: docker build -t cindyledev/docker-frontend -f Dockerfile.dev .
@@ -23,9 +22,14 @@ jobs:
   test:
     docker:
       - image: circleci/node:lts
+        auth:
+          username: cindyledev
+          password: $DOCKERHUB_PASSWORD
     steps:
       - attach_workspace:
           at: .
+      - setup_remote_docker:
+          version: 19.03.13
       - run: 
           name: Execute tests
           command: docker run cindyledev/docker-frontend npm run test -- -- coverage
