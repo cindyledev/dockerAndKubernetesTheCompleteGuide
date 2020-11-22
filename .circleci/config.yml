@@ -1,5 +1,35 @@
 version: 2.1
 jobs:
+  pre_build:
+    working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex
+    docker:
+      - image: circleci/node:lts
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
+    steps:
+      - checkout:
+          path: ~/dockerAndKubernetesTheCompleteGuide
+      - setup_remote_docker:
+          version: 19.03.13
+      - run:
+          name: Build client
+          command: |
+            docker build -t $DOCKER_USER/complex-client -f ./client/Dockerfile.dev ./client
+  test:
+    docker:
+      - image: circleci/node:lts
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
+    steps:
+      - attach_workspace:
+          at: .
+      - setup_remote_docker:
+          version: 19.03.13
+      - run:
+          name: Execute tests
+          command: docker run -e CI=true $DOCKER_USER/complex-client npm run test
   build:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex
     docker:
@@ -40,20 +70,6 @@ jobs:
           root: .
           paths:
             - .
-  test:
-    docker:
-      - image: circleci/node:lts
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKER_PASS
-    steps:
-      - attach_workspace:
-          at: .
-      - setup_remote_docker:
-          version: 19.03.13
-      - run:
-          name: Execute tests
-          command: docker run -e CI=true $DOCKER_USER/complex-client npm run test
   deploy:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex
     docker:
@@ -78,10 +94,11 @@ jobs:
 workflows:
   build_test_deploy:
     jobs:
-      - build
+      - pre_build
       - test:
           requires:
-            - build
+            - pre_build
+      - build
       - deploy:
           requires:
             - test
