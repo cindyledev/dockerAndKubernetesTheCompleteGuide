@@ -16,6 +16,8 @@ jobs:
           name: Build client
           command: |
             docker build -t $DOCKER_USER/complex-client -f ./client/Dockerfile.dev ./client
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker push $DOCKER_USER/complex-client
   test:
     docker:
       - image: circleci/node:lts
@@ -98,10 +100,12 @@ workflows:
       - test:
           requires:
             - pre_build
-      - build
-      - deploy:
+      - build:
           requires:
             - test
+      - deploy:
+          requires:
+            - build
           filters:
             branches:
               only:
