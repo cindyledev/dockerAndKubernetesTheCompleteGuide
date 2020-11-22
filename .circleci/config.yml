@@ -5,8 +5,8 @@ jobs:
     docker:
       - image: circleci/node:lts
         auth:
-          username: cindyledev
-          password: $DOCKERHUB_PASSWORD
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
     steps:
       - checkout:
           path: ~/dockerAndKubernetesTheCompleteGuide
@@ -28,7 +28,7 @@ jobs:
       - image: circleci/node:lts
         auth:
           username: cindyledev
-          password: $DOCKERHUB_PASSWORD
+          password: $DOCKER_PASS
     steps:
       - attach_workspace:
           at: .
