@@ -35,7 +35,7 @@ jobs:
           version: 19.03.13
       - run: 
           name: Execute tests
-          command: docker run cindyledev/docker-frontend npm run test -- -- coverage
+          command: docker run -e CI=true cindyledev/docker-frontend npm run test
   deploy:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
     docker:
