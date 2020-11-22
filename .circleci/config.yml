@@ -27,7 +27,7 @@ jobs:
           at: .
       - run: 
           name: Execute tests
-          command: npm run test
+          command: docker run cindyledev/docker-frontend npm run test -- -- coverage
   deploy:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
     docker:
