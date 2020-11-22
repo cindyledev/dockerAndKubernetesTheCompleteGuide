@@ -13,11 +13,11 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
       - run:
-          name: Build client
+          name: Build client for testing
           command: |
-            docker build -t $DOCKER_USER/complex-client -f ./client/Dockerfile.dev ./client
+            docker build -t $DOCKER_USER/complex-client-test -f ./client/Dockerfile.dev ./client
             echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-            docker push $DOCKER_USER/complex-client
+            docker push $DOCKER_USER/complex-client-test
   test:
     docker:
       - image: circleci/node:lts
@@ -31,7 +31,7 @@ jobs:
           version: 19.03.13
       - run:
           name: Execute tests
-          command: docker run -e CI=true $DOCKER_USER/complex-client npm run test
+          command: docker run -e CI=true $DOCKER_USER/complex-client-test npm run test
   build:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/complex
     docker:
