@@ -4,6 +4,9 @@ jobs:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
     docker:
       - image: circleci/node:lts
+        auth: 
+          username: cindyledev
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout:
           path: ~/dockerAndKubernetesTheCompleteGuide
