@@ -4,12 +4,17 @@ jobs:
     working_directory: ~/dockerAndKubernetesTheCompleteGuide/frontend
     docker:
       - image: circleci/node:lts
+        auth:
+          username: cindyledev
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout:
           path: ~/dockerAndKubernetesTheCompleteGuide
+      - setup_remote_docker:
+          version: 19.03.13
       - run:
           name: Build frontend
-          command: npm install
+          command: docker build -t cindyledev/docker-frontend -f Dockerfile.dev .
       - persist_to_workspace:
           root: .
           paths:
