@@ -2,7 +2,7 @@ branch-defaults:
   master:
     environment: null
 global:
-  application_name: docker-react
+  application_name: multi-docker
   branch: master
   default_ec2_keyname: null
   default_platform: Node.js

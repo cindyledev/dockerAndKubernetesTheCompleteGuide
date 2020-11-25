@@ -90,7 +90,7 @@ jobs:
       - run:
           name: Deploy to EB if branch is master
           command: |
-            eb use DockerReact-env
+            eb use MultiDocker-env
             eb deploy
 
 workflows:
