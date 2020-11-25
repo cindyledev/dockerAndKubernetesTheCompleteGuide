@@ -65,3 +65,5 @@
 - 163: More Container Definitions
 - 164: Forming Container Links
 - 177: Container Memory Allocations
+
+Note to self: To change to frontend or complex deploy, set the .circleci `config.yml` to the correct file
