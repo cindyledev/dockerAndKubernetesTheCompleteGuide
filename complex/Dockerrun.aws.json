@@ -18,6 +18,19 @@
             "image": "cindyledev/complex-worker",
             "hostname": "worker",
             "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "cindyledev/complex-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client", "server"]
         }
     ]
 }
